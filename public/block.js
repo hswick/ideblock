@@ -8,8 +8,8 @@ function cube(group, x, y, z) {
 }
 
 function cursorBlock(x, y, z) {
-	geometry = new THREE.BoxBufferGeometry( 30, 40, 30 );
-	geometry.translate(x, y, z);
+	geometry = new THREE.BoxBufferGeometry( 30, 20, 30 );
+	geometry.translate(x, y+20, z+10);
 
 	geometry.computeBoundingBox();
 	//material = new THREE.MeshBasicMaterial({map: texture});

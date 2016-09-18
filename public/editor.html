@@ -64,8 +64,7 @@ function collisionDetection() {
 		for(i = 1; i < stack.length; i++) {
 			if(isTouchingBlock(stack[0], stack[i])) {
 				console.log("They are touching");
-				newY = stack[i].position.y + 40;
-				stack[0].position+=newY;
+				stack[0].geometry.translate(0, 10, 0);
 			}
 		}
 	}
