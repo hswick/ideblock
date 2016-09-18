@@ -122,19 +122,24 @@ function cube(group, x, y, z) {
 function tree() {
 	radialTree = new THREE.Object3D();
 
-	x = radialTree.position.x;
-	y = radialTree.position.y;
-	init = new THREE.Vector3(x, y, radialTree.position.z);
-	node(radialTree, 8, x, y, radialTree.position.z);
-	theta = 0;
+	radialTree.position.y+=30;
+
+	node(radialTree, 8, radialTree.position.x, radialTree.position.y, radialTree.position.z);
+	init = radialTree.position;
+
+	theta = math.tau/4;
 	radius = 30;
 	nodes = [];
-	for(i = 0; i < 10; i++) {
-		x+=math.cos(theta) * radius + THREE.Math.randFloat(-10, 10);
-		y+=math.sin(theta) * radius + THREE.Math.randFloat(-10, 10);
-		z = THREE.Math.randInt(-10, -50);
+	points = 6;
+	x = 0;
+	y = 0;
+
+	for(i = 0; i < points; i++) {
+		x = init.x+math.cos(theta) * radius;
+		y = init.y+math.sin(theta) * radius;
+		z = 0;
 		node(radialTree, 8, x, y, z);
-		theta+=math.tau / 10;
+		theta+=math.tau/points;
 		edge(radialTree, init, new THREE.Vector3(x, y, z));
 		nodes.push(new THREE.Vector3(x, y, z));
 		if(nodes.length > 1) {
@@ -142,7 +147,6 @@ function tree() {
 		}
 	}
 	edge(radialTree, nodes[0], nodes[nodes.length-1]);
-
 	return radialTree;
 }
 
@@ -164,6 +168,7 @@ function node(group, r, x, y, z) {
 room(group);
 
 var rtree = tree();
+//rtree.translateY(20);
 group.add(rtree);
 
 scene.add(group);
@@ -175,8 +180,8 @@ function render() {
 	requestAnimationFrame( render );
 
 	//group.rotation.y += 0.01;
-	radialTree.position.y=20;
-	radialTree.position.z=10;
+	//radialTree.position.y=20;
+	//radialTree.position.z=10;
 	rtree.rotation.y += 0.01;
 	//rtree.rotation.z += 0.01;
 
