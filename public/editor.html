@@ -33,15 +33,15 @@ scene.add(pLight);
 w = 300;
 h = 200;
 
-var lightPoint = new THREE.PointLight(new THREE.Color(1, 1, 0.9), 1, 600);
+var lightPoint = new THREE.PointLight(new THREE.Color(1, 1, 0.9), 1, 400);
 lightPoint.position.set( 0, h/4, w/2 );
 scene.add(lightPoint);
 
-var lightPoint2 = new THREE.PointLight(new THREE.Color(1, 1, 1), 1, 400);
+var lightPoint2 = new THREE.PointLight(new THREE.Color(1, 1, 1), 1, 600);
 lightPoint2.position.set(0, w/2, 0);
 scene.add(lightPoint2);	
 
-var lightPoint3 = new THREE.PointLight(new THREE.Color(1, 1, 1), 0.5, 400);
+var lightPoint3 = new THREE.PointLight(new THREE.Color(1, 1, 1), 0.5, 600);
 lightPoint3.position.set(0, -w/4, -h/2);
 scene.add(lightPoint3);	
 

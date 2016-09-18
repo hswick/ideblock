@@ -13,7 +13,9 @@ function cursorBlock(x, y, z) {
 
 	geometry.computeBoundingBox();
 	//material = new THREE.MeshBasicMaterial({map: texture});
-	material = new THREE.MeshPhongMaterial({color: new THREE.Color(THREE.Math.randFloat(0,1), THREE.Math.randFloat(0,1), THREE.Math.randFloat(0,1))});
+	material = new THREE.MeshPhongMaterial({color: new THREE.Color(THREE.Math.randFloat(0,1), THREE.Math.randFloat(0,1), THREE.Math.randFloat(0,1)),
+											transparency: true,
+											opacity: 0.7});
 	mesh = new THREE.Mesh( geometry, material );
 	return mesh;
 }
