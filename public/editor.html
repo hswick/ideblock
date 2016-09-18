@@ -1,0 +1,212 @@
+<html>
+	<head>
+		<script src="./three.min.js"></script>
+		<script src="./listener.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.5.1/math.js"></script>
+	</head>
+	<body>
+		<script>
+
+
+var scene = new THREE.Scene();
+camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
+//camera.position.set(0, 100, 250);
+
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+//For spotlight
+document.body.appendChild( renderer.domElement );
+
+//Lighting
+var ambient = new THREE.AmbientLight( 0xffffff, 0.6 );
+//scene.add(ambient);
+
+var pLight = new THREE.PointLight(new THREE.Color(1, 1, 0.9), 0.5, 100);
+pLight.position.z = -20;
+scene.add(pLight);
+
+//scene.add(new THREE.PointLightHelper(greenPoint, 3));
+
+w = 300;
+h = 200;
+
+var lightPoint = new THREE.PointLight(new THREE.Color(1, 1, 1), 1, 400);
+lightPoint.position.set( 0, 0, 0 );
+scene.add(lightPoint);
+
+var lightPoint2 = new THREE.PointLight(new THREE.Color(1, 1, 0.5), 0.4, 600);
+lightPoint2.position.set(0, 145, 0);
+scene.add(lightPoint2);	
+
+group = new THREE.Object3D();
+group.position.z -= h;
+group.position.y -= h/2.75;
+
+//Floor
+g = new THREE.PlaneGeometry( w, h);
+material = new THREE.MeshPhongMaterial( {color: new THREE.Color(0.5, 0.5, 0.5), side: THREE.DoubleSide} );
+ground = new THREE.Mesh( g, material );
+ground.rotation.x += THREE.Math.degToRad(90);
+
+group.add(ground);
+
+var texture = new THREE.TextureLoader().load( 'blockTexture.png' );
+
+function room(group) {
+	geometry = new THREE.Geometry();
+
+	//Initial 4 corners of the ground
+	lt = new THREE.Vector3(-w/2, 0, -h/2);
+	rt = new THREE.Vector3(w/2, 0, -h/2);
+	rb = new THREE.Vector3(w/2, 0, h/2);
+	lb = new THREE.Vector3(-w/2, 0, h/2);
+	//geometry.vertices.push(lt, rt, rb, lb);
+
+	
+	//Wall 1 Back wall
+	//Triangle 1
+	//Add vector3s for more points to geometry.vertices
+	p0 = new THREE.Vector3(-w/2, w/2, -h/2);//0
+	p1 = new THREE.Vector3(w/2, 0, -h/2);//1
+	p2 = new THREE.Vector3(-w/2, 0, -h/2);//2
+
+	//Wall 1 Face 1 Back wall
+	geometry.vertices.push(p0, p1, p2);
+	geometry.faces.push(new THREE.Face3(0, 1, 2));
+
+	//Wall 1 Face 2
+	geometry.vertices.push(new THREE.Vector3(w/2, w/2, -h/2));//3
+	geometry.faces.push(new THREE.Face3(0, 3, 1));
+
+	//Wall 2 Left wall
+	//Face 1: 0, 2, 4
+	geometry.vertices.push(new THREE.Vector3(-w/2, 0, h/2));//4
+	geometry.faces.push(new THREE.Face3(0, 2, 4));
+
+	//Face 2: 0, 4, 5
+	 geometry.vertices.push(new THREE.Vector3(-w/2, w/2, h/2));//5
+	 geometry.faces.push(new THREE.Face3(0, 4, 5));
+
+	//Wall 3 Right wall
+	//Face 1: 6, 1, 3
+	geometry.vertices.push(new THREE.Vector3(w/2, w/2, h/2));//6
+	geometry.faces.push(new THREE.Face3(6, 1, 3));
+
+	//Face 2: 6, 7, 1
+	geometry.vertices.push(new THREE.Vector3(w/2, 0, h/2));//7
+	geometry.faces.push(new THREE.Face3(6, 7, 1));
+
+	//Wall 4 Ceiling
+	//Face 1: 6, 3, 0
+	//Face 2: 5, 6, 0
+	geometry.faces.push(new THREE.Face3(6, 3, 0));
+	geometry.faces.push(new THREE.Face3(5, 6, 0))
+
+	//Have to call this in order to get shadows with pLight
+	geometry.computeFaceNormals();
+	geometry.computeVertexNormals();
+
+	mesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: new THREE.Color(1, 1, 1), side: THREE.DoubleSide}));
+	group.add(mesh);
+}
+
+function cube(group, x, y, z) {
+	geometry = new THREE.BoxBufferGeometry( 10, 10, 10 );
+	geometry.translate(x, y, z);
+	//material = new THREE.MeshBasicMaterial({map: texture});
+	material = new THREE.MeshPhongMaterial({color: new THREE.Color(1, 0, 0)});
+	mesh = new THREE.Mesh( geometry, material );
+	group.add( mesh );
+}
+
+function tree() {
+	radialTree = new THREE.Object3D();
+
+	x = radialTree.position.x;
+	y = radialTree.position.y;
+	init = new THREE.Vector3(x, y, radialTree.position.z);
+	node(radialTree, 8, x, y, radialTree.position.z);
+	theta = 0;
+	radius = 30;
+	nodes = [];
+	for(i = 0; i < 10; i++) {
+		x+=math.cos(theta) * radius + THREE.Math.randFloat(-10, 10);
+		y+=math.sin(theta) * radius + THREE.Math.randFloat(-10, 10);
+		z = THREE.Math.randInt(-10, -50);
+		node(radialTree, 8, x, y, z);
+		theta+=math.tau / 10;
+		edge(radialTree, init, new THREE.Vector3(x, y, z));
+		nodes.push(new THREE.Vector3(x, y, z));
+		if(nodes.length > 1) {
+			edge(radialTree, nodes[i-1], nodes[i]);
+		}
+	}
+	edge(radialTree, nodes[0], nodes[nodes.length-1]);
+
+	return radialTree;
+}
+
+function edge(group, p1, p2) {
+	geometry = new THREE.Geometry();
+	geometry.vertices.push(p1, p2);
+	group.add(new THREE.Line(geometry, new THREE.LineBasicMaterial({color: new THREE.Color(THREE.Math.randFloat(0, 1), THREE.Math.randFloat(0, 1), 0)})));
+}
+
+function node(group, r, x, y, z) {
+	geometry = new THREE.SphereGeometry(r, 32, 32);
+	geometry.translate(x, y, z);
+	// material = new THREE.MeshPhongMaterial( {color: new THREE.Color(THREE.Math.randFloat(0, 1), THREE.Math.randFloat(0, 1), 0)} );
+	material = new THREE.MeshPhongMaterial( {map: texture});
+	sphere = new THREE.Mesh( geometry, material );
+	group.add(sphere);
+}
+
+room(group);
+
+var rtree = tree();
+group.add(rtree);
+
+scene.add(group);
+
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+
+function render() {
+	requestAnimationFrame( render );
+
+	//group.rotation.y += 0.01;
+	radialTree.position.y=20;
+	radialTree.position.z=10;
+	rtree.rotation.y += 0.01;
+	//rtree.rotation.z += 0.01;
+
+	camera.lookAt(scene.position);
+	renderer.render( scene, camera );
+}
+
+function onMouseMove( event ) {
+
+	// calculate mouse position in normalized device coordinates
+	// (-1 to +1) for both components
+
+	mouse.x = THREE.Math.mapLinear(event.clientX, 0, 1314, -w, w);
+	mouse.y = h - THREE.Math.mapLinear(event.clientY, 0, 728, 0, w, w/2);	
+
+}
+
+window.addEventListener( 'mousemove', onMouseMove, false );
+render();
+
+var cx = -100;
+var cy = 50;
+var cz = -10;
+
+voiceListener(function(result) {
+	cube(group, cx, cy, cz);
+	cx+=20;
+});
+
+			
+		</script>
+	</body>
+</html>
