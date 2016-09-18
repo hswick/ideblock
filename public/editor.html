@@ -34,7 +34,7 @@ var lightPoint = new THREE.PointLight(new THREE.Color(1, 1, 1), 1, 400);
 lightPoint.position.set( 0, 0, 0 );
 scene.add(lightPoint);
 
-var lightPoint2 = new THREE.PointLight(new THREE.Color(1, 1, 0.5), 0.4, 600);
+var lightPoint2 = new THREE.PointLight(new THREE.Color(1, 1, 0.5), 0.7, 600);
 lightPoint2.position.set(0, 145, 0);
 scene.add(lightPoint2);	
 
@@ -133,11 +133,11 @@ function tree() {
 
 	radialTree.position.y+=30;
 
-	node(radialTree, 8, radialTree.position.x, radialTree.position.y, radialTree.position.z);
+	node(radialTree, 3, radialTree.position.x, radialTree.position.y, radialTree.position.z);
 	init = radialTree.position;
 
 	theta = math.tau/4;
-	radius = 30;
+	radius = 10;
 	nodes = [];
 	points = 6;
 	x = 0;
@@ -147,7 +147,7 @@ function tree() {
 		x = init.x+math.cos(theta) * radius;
 		y = init.y+math.sin(theta) * radius;
 		z = 0;
-		node(radialTree, 8, x, y, z);
+		node(radialTree, 3, x, y, z);
 		theta+=math.tau/points;
 		edge(radialTree, init, new THREE.Vector3(x, y, z));
 		nodes.push(new THREE.Vector3(x, y, z));
@@ -166,10 +166,11 @@ function edge(group, p1, p2) {
 }
 
 function node(group, r, x, y, z) {
-	geometry = new THREE.SphereGeometry(r, 32, 32);
+	geometry = new THREE.SphereGeometry(r, 10, 10);
 	geometry.translate(x, y, z);
 	// material = new THREE.MeshPhongMaterial( {color: new THREE.Color(THREE.Math.randFloat(0, 1), THREE.Math.randFloat(0, 1), 0)} );
 	material = new THREE.MeshPhongMaterial( {map: texture});
+	//material = new THREE.MeshPhongMaterial({color: new THREE.Color(1, 1, 1)});
 	sphere = new THREE.Mesh( geometry, material );
 	group.add(sphere);
 }
