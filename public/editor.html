@@ -120,10 +120,10 @@ function cube(group, x, y, z) {
 }
 
 function cursorBlock(x, y, z) {
-	geometry = new THREE.BoxBufferGeometry( 10, 10, 10 );
+	geometry = new THREE.BoxBufferGeometry( 30, 40, 30 );
 	geometry.translate(x, y, z);
 	//material = new THREE.MeshBasicMaterial({map: texture});
-	material = new THREE.MeshPhongMaterial({color: new THREE.Color(1, 0, 0)});
+	material = new THREE.MeshPhongMaterial({color: new THREE.Color(THREE.Math.randFloat(0,1), THREE.Math.randFloat(0,1), THREE.Math.randFloat(0,1))});
 	mesh = new THREE.Mesh( geometry, material );
 	return mesh;
 }
@@ -178,17 +178,15 @@ room(group);
 
 cursor = cursorBlock(0, 0, 0);
 
+var stack = [];
+stack[0] = cursor;
+
 group.add(cursor);
 
-
 var rtree = tree();
-//rtree.translateY(20);
+
 group.add(rtree);
-
 scene.add(group);
-
-var raycaster = new THREE.Raycaster();
-var mouse = new THREE.Vector2();
 
 function render() {
 	requestAnimationFrame( render );
@@ -203,42 +201,36 @@ function render() {
 	renderer.render( scene, camera );
 }
 
-function onMouseMove( event ) {
-
-	// calculate mouse position in normalized device coordinates
-	// (-1 to +1) for both components
-
-	mouse.x = THREE.Math.mapLinear(event.clientX, 0, 1314, -w, w);
-	mouse.y = h - THREE.Math.mapLinear(event.clientY, 0, 728, 0, w, w/2);	
-
-}
-
 function onKeyDown(e) {
 	e = e || window.event;
 
    if (e.keyCode == '38') {
         // up arrow
-        cursor.position.z-=10;
+        stack[0].position.z-=10;
 
     }
     else if (e.keyCode == '40') {
         // down arrow
-        cursor.position.z+=10;
+        stack[0].position.z+=10;
     }
     else if (e.keyCode == '37') {
        // left arrow
-       cursor.position.x-=10;
+       stack[0].position.x-=10;
     }
     else if (e.keyCode == '39') {
        // right arrow
-       cursor.position.x+=10;
+       stack[0].position.x+=10;
+    }else if (e.keyCode == 32) {
+    	b = cursorBlock(0, 0, 0);
+    	stack.unshift(b);
+    	group.add(b);
+
     }
 
 }
 
 document.onkeydown = onKeyDown;
 
-window.addEventListener( 'onkeydown', onKeyDown, false );
 render();
 
 var cx = -100;
