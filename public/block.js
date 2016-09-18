@@ -19,6 +19,8 @@ function cursorBlock(x, y, z) {
 }
 
 function isTouchingBlock(a, b) {
+	a.geometry.computeBoundingBox();
+	b.geometry.computeBoundingBox();
 	bounds1 = a.geometry.boundingBox.clone();
 	bounds2 = b.geometry.boundingBox.clone();
 

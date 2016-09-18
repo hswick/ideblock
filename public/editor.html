@@ -63,7 +63,9 @@ function collisionDetection() {
 	if(stack.length > 1) {
 		for(i = 1; i < stack.length; i++) {
 			if(isTouchingBlock(stack[0], stack[i])) {
-				console.log("Is touching block");
+				console.log("They are touching");
+				newY = stack[i].position.y + 40;
+				stack[0].position+=newY;
 			}
 		}
 	}
@@ -81,20 +83,20 @@ function onKeyDown(e) {
 
    if (e.keyCode == '38') {
         // up arrow
-        stack[0].position.z-=10;
+        stack[0].geometry.translate(0, 0, -10);
 
     }
     else if (e.keyCode == '40') {
         // down arrow
-        stack[0].position.z+=10;
+        stack[0].geometry.translate(0, 0, 10);
     }
     else if (e.keyCode == '37') {
        // left arrow
-       stack[0].position.x-=10;
+       stack[0].geometry.translate(-10, 0, 0);
     }
     else if (e.keyCode == '39') {
        // right arrow
-       stack[0].position.x+=10;
+       stack[0].geometry.translate(10, 0, 0);
     }else if (e.keyCode == 32) {
     	b = cursorBlock(0, 0, 0);
     	stack[0].geometry.computeBoundingBox();
