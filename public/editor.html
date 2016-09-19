@@ -55,6 +55,9 @@ room(group);
 var stack = [cursorBlock(0, 0, 0)];
 group.add(stack[0]);
 
+var cursor = cursorWireframe(0, 0, 0);
+group.add(wire);
+
 console.log(stack[0]);
 
 scene.add(group);
@@ -82,22 +85,22 @@ function onKeyDown(e) {
 
    if (e.keyCode == '38') {
         // up arrow
-        stack[0].geometry.translate(0, 0, -10);
+        cursor.translateZ(-10);
 
     }
     else if (e.keyCode == '40') {
         // down arrow
-        stack[0].geometry.translate(0, 0, 10);
+        cursor.translateZ(10);
     }
     else if (e.keyCode == '37') {
        // left arrow
-       stack[0].geometry.translate(-10, 0, 0);
+       cursor.translateX(-10);
     }
     else if (e.keyCode == '39') {
        // right arrow
-       stack[0].geometry.translate(10, 0, 0);
+       cursor.translateX(10);
     }else if (e.keyCode == 32) {
-    	b = cursorBlock(0, 0, 0);
+    	b = cursorBlock(cursor.position.x, cursor.position.y, cursor.position.z);
     	stack[0].geometry.computeBoundingBox();
     	stack.unshift(b);
     	group.add(b);
