@@ -67,12 +67,16 @@ function collisionDetection() {
 	if(stack.length > 0) {
 		result = cursorTouchedABlock();
 		if(result) {
-			console.log("Touching");
+			//console.log("Touching");
 			cursor.translateY(20);
 		}else{
-			console.log("No collision");
 			if(cursorOnTopOfBlock()) {
-				console.log("On toop of block");
+				console.log("On a block");
+			}else{
+				dif = cursor.position.y - 0;
+				cursor.translateY(-dif);
+				console.log(dif);
+				console.log("Not on a block");
 			}
 		}
 	}
