@@ -49,8 +49,9 @@ function cursorWireframe(x, y, z) {
 	wireframe.add(topWire, bottomWire);
 	wireframe.translateY(-5);//y/4
 
-	return wireframe;
+	wireframe.bounds = bounds;
 
+	return wireframe;
 }
 
 function edge(p1, p2) {
@@ -59,17 +60,33 @@ function edge(p1, p2) {
 	return new THREE.Line(geometry, new THREE.LineBasicMaterial({color: new THREE.Color(0, 0, 0)}));
 }
 
-function cursorUpdate() {
-
+function cursorCollision(cursor, block) {
+	block.geometry.computeBoundingBox();
+	min = new THREE.Vector3().addVectors(cursor.bounds.min, cursor.position);
+	max = new THREE.Vector3().addVectors(cursor.bounds.max, cursor.position);
+	bounds1 = {};
+	bounds1.min = min;
+	bounds1.max = max;
+	bounds2 = block.geometry.boundingBox;
+	return min.distanceTo(bounds2.min) + max.distanceTo(bounds2.max) == 0.0;
 }
 
-function isTouchingBlock(a, b) {
-	a.geometry.computeBoundingBox();
-	b.geometry.computeBoundingBox();
-	bounds1 = a.geometry.boundingBox.clone();
-	bounds2 = b.geometry.boundingBox.clone();
+function blockUnderneath(cursor, block) {
+	block.geometry.computeBoundingBox();
+	min = new THREE.Vector3().addVectors(cursor.bounds.min, cursor.position);
+	max = new THREE.Vector3().addVectors(cursor.bounds.max, cursor.position);
+	bounds1 = {};
+	bounds1.min = min;
+	bounds1.max = max;
+	bounds2 = block.geometry.boundingBox;
 
-	return (bounds1.min.x <= bounds2.max.x && bounds1.max.x >= bounds2.min.x) &&
-         (bounds1.min.y <= bounds2.max.y && bounds1.max.y >= bounds2.min.y) &&
-         (bounds1.min.z <= bounds2.max.z && bounds1.max.z >= bounds2.min.z);
+	bottomMin = new THREE.Vector3().addVectors(min, new THREE.Vector3(0, -20, 0));
+	bottomMax = new THREE.Vector3().addVectors(max, new THREE.Vector3(0, -20, 0));
+	return bottomMin.distanceTo(bounds2.min) + bottomMax.distanceTo(bounds2.max) == 0.0;
+
+	//console.log(block.position);
+
+	// return cursor.position.x == block.geometry.position.x &&
+	// 	   cursor.position.z == block.geometry.position.z &&
+	// 	   cursor.position.y > block.geometry.position.y;
 }

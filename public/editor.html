@@ -52,25 +52,48 @@ group.position.y -= h/2.75;
 room(group);
 
 //Initial stack push
-var stack = [cursorBlock(0, 0, 0)];
-group.add(stack[0]);
+//var stack = [cursorBlock(0, 0, 0)];
+var stack = [];
+//group.add(stack[0]);
 
 var cursor = cursorWireframe(0, 0, 0);
-group.add(wire);
+group.add(cursor);
 
 console.log(stack[0]);
 
 scene.add(group);
 
 function collisionDetection() {
-	if(stack.length > 1) {
-		for(i = 1; i < stack.length; i++) {
-			if(isTouchingBlock(stack[0], stack[i])) {
-				console.log("They are touching");
-				stack[0].geometry.translate(0, 10, 0);
+	if(stack.length > 0) {
+		result = cursorTouchedABlock();
+		if(result) {
+			console.log("Touching");
+			cursor.translateY(20);
+		}else{
+			console.log("No collision");
+			if(cursorOnTopOfBlock()) {
+				console.log("On toop of block");
 			}
 		}
 	}
+}
+
+function cursorTouchedABlock() {
+	for( i = 0; i < stack.length; i++) {
+		if(cursorCollision(cursor, stack[i])){
+			return stack[i];
+		}
+	}
+	return false;
+}
+
+function cursorOnTopOfBlock() {
+	for( i = 0; i < stack.length; i++) {
+		if(blockUnderneath(cursor, stack[i])) {
+			return true;
+		}
+	}
+	return false;
 }
 
 function render() {
@@ -85,26 +108,24 @@ function onKeyDown(e) {
 
    if (e.keyCode == '38') {
         // up arrow
-        cursor.translateZ(-10);
-
+        cursor.translateZ(-30);
     }
     else if (e.keyCode == '40') {
         // down arrow
-        cursor.translateZ(10);
+        cursor.translateZ(30);
     }
     else if (e.keyCode == '37') {
        // left arrow
-       cursor.translateX(-10);
+       cursor.translateX(-30);
     }
     else if (e.keyCode == '39') {
        // right arrow
-       cursor.translateX(10);
+       cursor.translateX(30);
     }else if (e.keyCode == 32) {
     	b = cursorBlock(cursor.position.x, cursor.position.y, cursor.position.z);
-    	stack[0].geometry.computeBoundingBox();
+    	//b.translate(5);
     	stack.unshift(b);
     	group.add(b);
-
     }
 }
 
