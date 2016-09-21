@@ -136,14 +136,14 @@ function onKeyDown(e) {
     	console.log(stack.length);
     	group.remove(b);
     }else if(e.keyCode == 67) {// 'c'
-    	for( i = 0; i < stack.length; i++) {
+    		    	for( i = 0; i < stack.length; i++) {
 			if(blockUnderneath(cursor, stack[i])) {
 				console.log(stack[i].material.color);
 				console.log(room.material.color);
 				room.material.color = stack[i].material.color;
 			}
 		}
-    }else if(e.keyCode == 17)
+    }
 }
 
 document.onkeydown = onKeyDown;
