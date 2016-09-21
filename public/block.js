@@ -49,6 +49,14 @@ function cursorWireframe(x, y, z) {
 	wireframe.add(topWire, bottomWire);
 	//wireframe.translateY(-5);//y/4
 
+	l4 = edge(new THREE.Vector3(x, y+20, z), new THREE.Vector3(x, w/2, z));
+	l5 = edge(new THREE.Vector3(x, y+20, z), new THREE.Vector3(w, y+20, z));
+	l6 = edge(new THREE.Vector3(x, y+20, z), new THREE.Vector3(-w, y+20, z));
+	//l7 = edge(new THREE.Vector3(x, y+20, z), new THREE.Vector3(x, -w/2, z)); dont need bottom cursor cuz of falling motion
+	l8 = edge(new THREE.Vector3(x, y+20, z), new THREE.Vector3(x, y, h));
+	l9 = edge(new THREE.Vector3(x, y+20, z), new THREE.Vector3(x, y, -h));
+	wireframe.add(l4);
+
 	wireframe.bounds = bounds;
 
 	return wireframe;

@@ -1,4 +1,4 @@
-function room(group) {
+function room() {
 	geometry = new THREE.Geometry();
 
 	//Initial 4 corners of the ground
@@ -59,5 +59,5 @@ function room(group) {
 	geometry.computeVertexNormals();
 
 	mesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: new THREE.Color(1, 1, 1), side: THREE.DoubleSide}));
-	group.add(mesh);
+	return mesh;
 }
