@@ -47,7 +47,7 @@ function cursorWireframe(x, y, z) {
 	bottomWire.translateY(-10);//-y/2
 
 	wireframe.add(topWire, bottomWire);
-	wireframe.translateY(-5);//y/4
+	//wireframe.translateY(-5);//y/4
 
 	wireframe.bounds = bounds;
 
