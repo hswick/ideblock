@@ -28,7 +28,7 @@ var ambient = new THREE.AmbientLight( 0xffffff, 0.6 );
 
 var pLight = new THREE.PointLight(new THREE.Color(1, 1, 0.9), 4, 100);
 pLight.position.z = -20;
-scene.add(pLight);
+//scene.add(pLight);
 
 //scene.add(new THREE.PointLightHelper(greenPoint, 3));
 
@@ -37,15 +37,31 @@ h = 500;
 
 var lightPoint = new THREE.PointLight(new THREE.Color(1, 1, 0.9), 5, 850);
 lightPoint.position.set( 0, h/4, w/2 );
-scene.add(lightPoint);
+//scene.add(lightPoint);
 
 var lightPoint2 = new THREE.PointLight(new THREE.Color(1, 1, 1), 5, 850);
 lightPoint2.position.set(0, w/2, 0);
-scene.add(lightPoint2);	
+//scene.add(lightPoint2);	
 
 var lightPoint3 = new THREE.PointLight(new THREE.Color(1, 1, 1), 4, 800);
 lightPoint3.position.set(0, -w/4, -h/2);
-scene.add(lightPoint3);	
+//scene.add(lightPoint3);
+
+var spotlight = new THREE.SpotLight(new THREE.Color(1, 1, 0.7));
+
+spotlight.position.set(0, 200, 500);
+spotlight.castShadow = true;
+spotlight.angle = 0.5
+spotlight.intensity = 2;
+spotlight.penumbra = 0.5;
+spotlight.distance = w * 2;
+spotlight.decay = 3;
+
+
+scene.add(spotlight);
+
+var sphelper = new THREE.SpotLightHelper(spotlight);
+scene.add(sphelper);
 
 group = new THREE.Object3D();
 group.position.z -= h;
@@ -104,7 +120,8 @@ function cursorOnTopOfBlock() {
 function render() {
 	requestAnimationFrame( render );
 	collisionDetection();
-	camera.lookAt(scene.position);
+	//camera.rotation.y+=0.01;
+	//camera.lookAt(scene.position);
 	renderer.render( scene, camera );
 }
 
