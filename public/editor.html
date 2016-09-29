@@ -24,7 +24,7 @@ document.body.appendChild( renderer.domElement );
 
 //Lighting
 var ambient = new THREE.AmbientLight( 0xffffff, 0.6 );
-//scene.add(ambient);
+scene.add(ambient);
 
 var pLight = new THREE.PointLight(new THREE.Color(1, 1, 0.9), 4, 100);
 pLight.position.z = -20;
@@ -52,7 +52,7 @@ var spotlight = new THREE.SpotLight(new THREE.Color(1, 1, 0.7));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-spotlight.position.set(200, 200, 500);
+spotlight.position.set(0, 200, 500);
 spotlight.castShadow = true;
 spotlight.angle = 0.5
 spotlight.intensity = 3;
