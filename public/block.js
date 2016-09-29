@@ -8,16 +8,22 @@ function cube(group, x, y, z) {
 	group.add( mesh );
 }
 
+var counter = 0;
+
+var pastels = ["#e1f7d5", "#ffbdbd", "#c9c9ff", "#ffffff", "#f1cbff"];
+
 function cursorBlock(x, y, z) {
 	geometry = new THREE.BoxBufferGeometry( 30, 20, 30 );
 	geometry.translate(x, y+20, z);
 
 	geometry.computeBoundingBox();
-	//material = new THREE.MeshBasicMaterial({map: texture});
-	material = new THREE.MeshPhongMaterial({color: new THREE.Color(THREE.Math.randFloat(0,1), THREE.Math.randFloat(0,1), THREE.Math.randFloat(0,1))});
+	material = new THREE.MeshPhongMaterial({color: pastels[counter++]});
+	if(counter >= pastels.length) counter = 0;
+	//material = new THREE.MeshPhongMaterial({color: pastels[THREE.Math.randInt(0, pastels.length+1)]});
+	//material = new THREE.MeshPhongMaterial({color: new THREE.Color(THREE.Math.randFloat(0,1), THREE.Math.randFloat(0,1), THREE.Math.randFloat(0,1))});
 	mesh = new THREE.Mesh( geometry, material );
 	mesh.castShadow = true;
-	//mesh.receiveShadow = true;
+	mesh.receiveShadow = true;
 	return mesh;
 }
 

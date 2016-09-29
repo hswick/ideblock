@@ -58,7 +58,7 @@ function room() {
 	geometry.computeFaceNormals();
 	geometry.computeVertexNormals();
 
-	mesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: new THREE.Color(1, 1, 1), side: THREE.DoubleSide}));
+	mesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: "#ffffff", side: THREE.DoubleSide}));
 	mesh.receiveShadow = true;
 	return mesh;
 }
