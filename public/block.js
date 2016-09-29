@@ -17,6 +17,7 @@ function cursorBlock(x, y, z) {
 	material = new THREE.MeshPhongMaterial({color: new THREE.Color(THREE.Math.randFloat(0,1), THREE.Math.randFloat(0,1), THREE.Math.randFloat(0,1))});
 	mesh = new THREE.Mesh( geometry, material );
 	mesh.castShadow = true;
+	//mesh.receiveShadow = true;
 	return mesh;
 }
 

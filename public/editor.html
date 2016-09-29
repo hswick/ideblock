@@ -17,7 +17,7 @@ camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight
 camera.focalLength = 20;
 camera.updateProjectionMatrix();	
 
-var renderer = new THREE.WebGLRenderer();
+var renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize( window.innerWidth, window.innerHeight );
 //For spotlight
 document.body.appendChild( renderer.domElement );
@@ -52,18 +52,27 @@ var spotlight = new THREE.SpotLight(new THREE.Color(1, 1, 0.7));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-spotlight.position.set(0, 200, 500);
+spotlight.position.set(200, 200, 500);
 spotlight.castShadow = true;
 spotlight.angle = 0.5
-spotlight.intensity = 2;
+spotlight.intensity = 3;
 spotlight.penumbra = 0.5;
 spotlight.distance = w * 2;
 spotlight.decay = 3;
 
-// spotLight.shadow.mapSize.width = 1024;
-// spotLight.shadow.mapSize.height = 1024;
-spotlight.shadow.camera.near = 1;
-spotlight.shadow.camera.near = 200;
+spotlight.shadow.mapSize.width = 2048;
+spotlight.shadow.mapSize.height = 2048;
+
+spotlight.shadowCameraVisible = true;
+
+
+	// lt = new THREE.Vector3(-w/2, 0, -h/2);
+	// rt = new THREE.Vector3(w/2, 0, -h/2);
+	// rb = new THREE.Vector3(w/2, 0, h/2);
+	// lb = new THREE.Vector3(-w/2, 0, h/2);
+
+// spotlight.shadow.camera.near = 1;
+// spotlight.shadow.camera.far = 200;
 
 scene.add(spotlight);
 
