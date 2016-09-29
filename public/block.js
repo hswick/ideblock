@@ -4,6 +4,7 @@ function cube(group, x, y, z) {
 	//material = new THREE.MeshBasicMaterial({map: texture});
 	material = new THREE.MeshPhongMaterial({color: new THREE.Color(1, 0, 0)});
 	mesh = new THREE.Mesh( geometry, material );
+	mesh.castShadow = true;
 	group.add( mesh );
 }
 
@@ -15,6 +16,7 @@ function cursorBlock(x, y, z) {
 	//material = new THREE.MeshBasicMaterial({map: texture});
 	material = new THREE.MeshPhongMaterial({color: new THREE.Color(THREE.Math.randFloat(0,1), THREE.Math.randFloat(0,1), THREE.Math.randFloat(0,1))});
 	mesh = new THREE.Mesh( geometry, material );
+	mesh.castShadow = true;
 	return mesh;
 }
 

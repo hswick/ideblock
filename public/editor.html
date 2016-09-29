@@ -49,6 +49,9 @@ lightPoint3.position.set(0, -w/4, -h/2);
 
 var spotlight = new THREE.SpotLight(new THREE.Color(1, 1, 0.7));
 
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
 spotlight.position.set(0, 200, 500);
 spotlight.castShadow = true;
 spotlight.angle = 0.5
@@ -57,6 +60,10 @@ spotlight.penumbra = 0.5;
 spotlight.distance = w * 2;
 spotlight.decay = 3;
 
+// spotLight.shadow.mapSize.width = 1024;
+// spotLight.shadow.mapSize.height = 1024;
+spotlight.shadow.camera.near = 1;
+spotlight.shadow.camera.near = 200;
 
 scene.add(spotlight);
 
@@ -145,8 +152,9 @@ function onKeyDown(e) {
        cursor.translateX(30);
     }else if (e.keyCode == 32) {//spacebar
     	b = cursorBlock(cursor.position.x, cursor.position.y, cursor.position.z);
-    	stack.push(b);
     	group.add(b);
+    	stack.push(b);
+    	
     }else if (e.keyCode == 13) {// enter
     	console.log(stack.length);
     	b = stack.pop();
