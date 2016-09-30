@@ -20,7 +20,7 @@ spotlight.shadow.mapSize.height = 2048 + 1024;
 //spotlight & ambient received from lighting.js
 scene.add(spotlight, ambient);
 
-var sphelper = new THREE.SpotLightHelper(spotlight);
-scene.add(sphelper);
+// var sphelper = new THREE.SpotLightHelper(spotlight);
+// scene.add(sphelper);
 
 }
