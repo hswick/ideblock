@@ -99,6 +99,7 @@ function render() {
 function onKeyDown(e) {
 	e = e || window.event;
 
+   //Cursor controls
    if (e.keyCode == '38') {
         // up arrow
         cursor.translateZ(-30);
@@ -125,13 +126,29 @@ function onKeyDown(e) {
     	console.log(stack.length);
     	group.remove(b);
     }else if(e.keyCode == 67) {// 'c'
-    		    	for( i = 0; i < stack.length; i++) {
+    	for( i = 0; i < stack.length; i++) {
 			if(blockUnderneath(cursor, stack[i])) {
 				console.log(stack[i].material.color);
 				console.log(room.material.color);
 				room.material.color = stack[i].material.color;
 			}
 		}
+    }
+
+
+    //Movement controls
+    else if(e.keyCode == 87) {
+    	camera.position.z-=10;
+    }else if(e.keyCode == 65) {
+    	camera.position.x-=10;
+    }else if(e.keyCode == 83) {
+    	camera.position.z+=10;
+    }else if(e.keyCode == 68) {
+    	camera.position.x+=10;
+    }else if(e.keyCode == 81) {
+    	camera.rotation.y += (90 * math.pi / 180) * 0.5;
+    }else if(e.keyCode == 69) {
+    	camera.rotation.y += (-(90 * math.pi / 180)) * 0.5;
     }
 }
 
