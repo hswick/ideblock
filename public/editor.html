@@ -96,7 +96,7 @@ function render() {
 	renderer.render( scene, camera );
 }
 
-function moveCamera(direction) {
+function moveCamera(dir) {
 
     var direction = new THREE.Vector3( 0, 0, - 1 );
     direction.applyQuaternion( camera.quaternion );
@@ -104,14 +104,14 @@ function moveCamera(direction) {
     speed = 10;
     var delta = new THREE.Vector3(speed, speed, speed);
 
-	if(direction == 0) {//Forward
+	if(dir == 0) {//Forward
 		//Dont change direction
-	}else if(direction == 1) {//Right
-		console.log(direction.applyAxisAngle(new THREE.Vector3(0, 1, 0), math.pi/4));
-		console.log("Right");
-		//camera.position.add(delta.multiply(direction));
-	}else if(direction == 2) {
-		//direction.applyAxisAngle(new THREE.Vector3(0, 1, 0), math.pi/4);
+	}else if(dir == 1) {//Right
+		direction.applyAxisAngle(new THREE.Vector3(0, 1, 0), -math.tau/4);
+	}else if(dir == 2) {//Back
+		direction.applyAxisAngle(new THREE.Vector3(0, 1, 0), math.tau/2);
+	}else if(dir == 3) {//Left
+		direction.applyAxisAngle(new THREE.Vector3(0, 1, 0), math.tau/4);
 	}
 
 	delta.multiply(direction);
