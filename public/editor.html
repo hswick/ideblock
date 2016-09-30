@@ -5,10 +5,13 @@
 		<script src="./radialTree.js"></script>
 		<script src="./room.js"></script>
 		<script src="./block.js"></script>
+		<script src="./lighting.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.5.1/math.js"></script>
 	</head>
 	<body>
 		<script>
+
+
 
 
 var scene = new THREE.Scene();
@@ -19,38 +22,17 @@ camera.updateProjectionMatrix();
 
 var renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize( window.innerWidth, window.innerHeight );
-//For spotlight
-document.body.appendChild( renderer.domElement );
-
-//Lighting
-var ambient = new THREE.AmbientLight( 0xffffff, 0.7 );
-scene.add(ambient);
-
-w = 1000;
-h = 500;
-
-var spotlight = new THREE.SpotLight(new THREE.Color(1, 1, 1));
-
+//For spotlight to cast shadows
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.shadowMapSoft = true;
 
-spotlight.position.set(0, 200, 600);
-spotlight.castShadow = true;
-spotlight.angle = 0.5
-spotlight.intensity = 1;
-spotlight.penumbra = 0.5;
-spotlight.distance = w * 2;
-spotlight.decay = 3;
+document.body.appendChild( renderer.domElement );
 
-spotlight.shadow.mapSize.width = 2048 + 1024;
-spotlight.shadow.mapSize.height = 2048 + 1024;
+w = 1000;
+h = 500;
 
-
-scene.add(spotlight);
-
-var sphelper = new THREE.SpotLightHelper(spotlight);
-scene.add(sphelper);
+lighting(w, h, scene);
 
 group = new THREE.Object3D();
 group.position.z -= h;
