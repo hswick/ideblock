@@ -1,5 +1,13 @@
 <html>
 	<head>
+		<script>
+			//Constants
+			blockXSize = 10;
+			blockYSize = 10;
+			blockZSize = 10;
+			w = 1000;
+			h = 500;
+		</script>
 		<script src="./three.min.js"></script>
 		<script src="./listener.js"></script>
 		<script src="./radialTree.js"></script>
@@ -10,9 +18,6 @@
 	</head>
 	<body>
 		<script>
-
-w = 1000;
-h = 500;
 
 
 var scene = new THREE.Scene();
@@ -39,10 +44,10 @@ group.position.z -= h;
 group.position.y -= h/2.75;
 
 var room = room();
-group.add(room);
-
 var innerRoomOutline = innerRoomOutline();
-group.add(innerRoomOutline);
+room.add(innerRoomOutline);
+room.translateY(-blockYSize/2);
+group.add(room);
 
 //Initial stack push
 //var stack = [cursorBlock(0, 0, 0)];
@@ -54,18 +59,34 @@ group.add(cursor);
 
 scene.add(group);
 
+function updateCursorPosition(delta) {
+	cursor.position.x += delta.x;
+	cursor.position.y += delta.y;
+	cursor.position.z += delta.z;
+
+	//Update bounds box
+	// cursor.bounds.min.x += delta.x;
+	// cursor.bounds.min.y += delta.y;
+	// cursor.bounds.min.z += delta.z;
+
+	// cursor.bounds.max.x += delta.x;
+	// cursor.bounds.max.y += delta.y;
+	// cursor.bounds.max.z += delta.z;
+}
+
 function collisionDetection() {
 	if(stack.length > 0) {
 		result = cursorTouchedABlock();
 		if(result) {
-			//console.log("Touching");
-			cursor.translateY(20);
+			console.log("Touching");
+			updateCursorPosition(new THREE.Vector3(0, 20, 0));
 		}else{
+			//console.log(cursor);
 			if(cursorOnTopOfBlock()) {
 
 			}else{
 				dif = cursor.position.y - 0;
-				cursor.translateY(-dif);
+				updateCursorPosition(new THREE.Vector3(0, -dif, 0));
 				//console.log(dif);
 				//console.log("Not on a block");
 			}
@@ -145,13 +166,13 @@ function moveCursor(dir) {
 	}
 
 	delta.multiply(direction);
-	cursor.position.x += delta.x;
-	cursor.position.y += delta.y;
-	cursor.position.z += delta.z;
-
+	updateCursorPosition(delta);
 }
 
 function onKeyDown(e) {
+
+	computeCursorBoundingBox();
+	console.log(cursor);
 	e = e || window.event;
 
    //Cursor controls
@@ -176,6 +197,8 @@ function onKeyDown(e) {
        moveCursor(1);
     }else if (e.keyCode == 32) {//spacebar
     	b = cursorBlock(cursor.position.x, cursor.position.y, cursor.position.z);
+    	//console.log(cursor.position);
+    	console.log(cursor.bounds);
     	group.add(b);
     	stack.push(b);
     }else if (e.keyCode == 13) {// enter
@@ -211,6 +234,11 @@ function onKeyDown(e) {
     	camera.rotation.y += (90 * math.pi / 180) * 0.5;
     }else if(e.keyCode == 69) {
     	camera.rotation.y += (-(90 * math.pi / 180)) * 0.5;
+    }
+
+    //Testing keys
+    else if(e.keyCode == 49) {
+    	console.log(cursor);
     }
 }
 
