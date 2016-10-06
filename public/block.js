@@ -67,23 +67,9 @@ function edge(p1, p2) {
 	return new THREE.Line(geometry, new THREE.LineBasicMaterial({color: new THREE.Color(0, 0, 0)}));
 }
 
-// function cursorCollision(cursor, block) {
-// 	block.geometry.computeBoundingBox();
-// 	min = new THREE.Vector3().addVectors(cursor.bounds.min, cursor.position);
-// 	max = new THREE.Vector3().addVectors(cursor.bounds.max, cursor.position);
-// 	bounds1 = {};
-// 	bounds1.min = min;
-// 	bounds1.max = max;
-// 	bounds2 = block.geometry.boundingBox;
-// 	dist = min.distanceTo(bounds2.min) + max.distanceTo(bounds2.max)
-// 	//console.log(dist);
-// 	return dist == 0.0;
-// }
-
 function cursorCollision(cursor, block) {
 	//block.geometry.computeBoundingBox();
-	dist = cursor.bounds.min.distanceTo(block.geometry.boundingBox.min) + cursor.bounds.max.distanceTo(block.geometry.boundingBox.max)
-	//console.log(dist);
+	dist = cursor.bounds.min.distanceTo(block.geometry.boundingBox.min) + cursor.bounds.max.distanceTo(block.geometry.boundingBox.max);
 	return dist == 0.0;
 }
 
@@ -94,10 +80,4 @@ function blockUnderneath(cursor, block) {
 	bottomMin = new THREE.Vector3().addVectors(cursor.bounds.min, new THREE.Vector3(0, -blockYSize, 0));
 	bottomMax = new THREE.Vector3().addVectors(cursor.bounds.max, new THREE.Vector3(0, -blockYSize, 0));
 	return bottomMin.distanceTo(bounds2.min) + bottomMax.distanceTo(bounds2.max) == 0.0;
-
-	//console.log(block.position);
-
-	// return cursor.position.x == block.geometry.position.x &&
-	// 	   cursor.position.z == block.geometry.position.z &&
-	// 	   cursor.position.y > block.geometry.position.y;
 }
