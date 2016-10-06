@@ -29,7 +29,7 @@ function cursorBlock(x, y, z) {
 
 //This should copy a blocks information. vector3 as input
 function cursorWireframe(x, y, z) {
-	console.log("wire being called");
+	//console.log("wire being called");
 	wireframe = new THREE.Object3D();
 	boxGeometry = new THREE.BoxBufferGeometry( 30, 20, 30 );
 	boxGeometry.translate(x, y+20, z);

@@ -54,6 +54,9 @@ function room() {
 	geometry.faces.push(new THREE.Face3(1, 4, 2));
 	geometry.faces.push(new THREE.Face3(1, 7, 4));
 
+	//Wall 6 Front Wall
+	//geoemtry.faces.push(new THREE.Face3())
+
 	//Have to call this in order to get shadows with pLight
 	geometry.computeFaceNormals();
 	geometry.computeVertexNormals();
