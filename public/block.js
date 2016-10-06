@@ -81,14 +81,14 @@ function edge(p1, p2) {
 // }
 
 function cursorCollision(cursor, block) {
-	block.geometry.computeBoundingBox();
+	//block.geometry.computeBoundingBox();
 	dist = cursor.bounds.min.distanceTo(block.geometry.boundingBox.min) + cursor.bounds.max.distanceTo(block.geometry.boundingBox.max)
 	//console.log(dist);
 	return dist == 0.0;
 }
 
 function blockUnderneath(cursor, block) {
-	block.geometry.computeBoundingBox();
+	//block.geometry.computeBoundingBox();
 	bounds2 = block.geometry.boundingBox;
 
 	bottomMin = new THREE.Vector3().addVectors(cursor.bounds.min, new THREE.Vector3(0, -blockYSize, 0));
