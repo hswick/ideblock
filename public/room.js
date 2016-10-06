@@ -55,7 +55,8 @@ function room() {
 	geometry.faces.push(new THREE.Face3(1, 7, 4));
 
 	//Wall 6 Front Wall
-	//geoemtry.faces.push(new THREE.Face3())
+	geometry.faces.push(new THREE.Face3(6, 7, 4));
+	geometry.faces.push(new THREE.Face3(6, 4, 5));
 
 	//Have to call this in order to get shadows with pLight
 	geometry.computeFaceNormals();
@@ -79,15 +80,19 @@ function innerRoomOutline() {
 	innerOutline.add(edge(new THREE.Vector3(-roomXSize/2, 1, -roomZSize/2), new THREE.Vector3(-roomXSize/2, 1, roomZSize/2)));
 	innerOutline.add(edge(new THREE.Vector3(-roomXSize/2, 1, -roomZSize/2), new THREE.Vector3(roomXSize/2, 1, -roomZSize/2)));
 	innerOutline.add(edge(new THREE.Vector3(roomXSize/2, 1, -roomZSize/2), new THREE.Vector3(roomXSize/2, 1, roomZSize/2)));
+	innerOutline.add(edge(new THREE.Vector3(-roomXSize/2, 1, roomZSize/2), new THREE.Vector3(roomXSize/2, 1, roomZSize/2)));
 
 	//Walls
 	innerOutline.add(edge(new THREE.Vector3(-roomXSize/2, 1, -roomZSize/2), new THREE.Vector3(-roomXSize/2, roomYSize, -roomZSize/2)));
 	innerOutline.add(edge(new THREE.Vector3(roomXSize/2, 1, -roomZSize/2), new THREE.Vector3(roomXSize/2, roomYSize, -roomZSize/2)));
+	innerOutline.add(edge(new THREE.Vector3(-roomXSize/2, 1, roomZSize/2 - 1), new THREE.Vector3(-roomXSize/2, roomYSize, roomZSize/2 - 1)));
+	innerOutline.add(edge(new THREE.Vector3(roomXSize/2, 1, roomZSize/2 - 1), new THREE.Vector3(roomXSize/2, roomYSize, roomZSize/2 - 1)));
 
 	//Ceiling
 	innerOutline.add(edge(new THREE.Vector3(-roomXSize/2, roomYSize - 1, -roomZSize/2), new THREE.Vector3(-roomXSize/2, roomYSize - 1, roomZSize/2)));
 	innerOutline.add(edge(new THREE.Vector3(-roomXSize/2, roomYSize - 1, -roomZSize/2), new THREE.Vector3(roomXSize/2, roomYSize - 1, -roomZSize/2)));
 	innerOutline.add(edge(new THREE.Vector3(roomXSize/2, roomYSize - 1, -roomZSize/2), new THREE.Vector3(roomXSize/2, roomYSize - 1, roomZSize/2)));
+	innerOutline.add(edge(new THREE.Vector3(-roomXSize/2, roomYSize - 1, roomZSize/2), new THREE.Vector3(roomXSize/2, roomYSize - 1, roomZSize/2)));
 
 	return innerOutline;
 
