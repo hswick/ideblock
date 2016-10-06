@@ -83,12 +83,12 @@ function collisionDetection() {
 		if(result) {
 			console.log("Touching");
 			updateCursorPosition(new THREE.Vector3(0, blockYSize, 0));
-		}
-
+		}else{
 					//console.log(cursor);
-		if(!cursorOnTopOfBlock()) {
-			dif = cursor.position.y - 0;
-			updateCursorPosition(new THREE.Vector3(0, -dif, 0));
+			if(!cursorOnTopOfBlock()) {
+				dif = cursor.position.y - 0;
+				updateCursorPosition(new THREE.Vector3(0, -dif, 0));
+			}
 		}
 	}
 }
