@@ -65,3 +65,30 @@ function room() {
 	mesh.receiveShadow = true;
 	return mesh;
 }
+
+function edge(p1, p2) {
+	geometry = new THREE.Geometry();
+	geometry.vertices.push(p1, p2);
+	return new THREE.Line(geometry, new THREE.LineBasicMaterial({color: new THREE.Color(0, 0, 0)}));
+}
+
+function innerRoomOutline() {
+	innerOutline = new THREE.Object3D();
+
+	//Floor
+	innerOutline.add(edge(new THREE.Vector3(-w/2, 1, -h/2), new THREE.Vector3(-w/2, 1, h/2)));
+	innerOutline.add(edge(new THREE.Vector3(-w/2, 1, -h/2), new THREE.Vector3(w/2, 1, -h/2)));
+	innerOutline.add(edge(new THREE.Vector3(w/2, 1, -h/2), new THREE.Vector3(w/2, 1, h/2)));
+
+	//Walls
+	innerOutline.add(edge(new THREE.Vector3(-w/2, 1, -h/2), new THREE.Vector3(-w/2, w/2, -h/2)));
+	innerOutline.add(edge(new THREE.Vector3(w/2, 1, -h/2), new THREE.Vector3(w/2, w/2, -h/2)));
+
+	//Ceiling
+	innerOutline.add(edge(new THREE.Vector3(-w/2, w/2 - 1, -h/2), new THREE.Vector3(-w/2, w/2 - 1, h/2)));
+	innerOutline.add(edge(new THREE.Vector3(-w/2, w/2 - 1, -h/2), new THREE.Vector3(w/2, w/2 - 1, -h/2)));
+	innerOutline.add(edge(new THREE.Vector3(w/2, w/2 - 1, -h/2), new THREE.Vector3(w/2, w/2 - 1, h/2)));
+
+	return innerOutline;
+
+}
