@@ -17,13 +17,6 @@ function cursorBlock(x, y, z) {
 	return mesh;
 }
 
-function computeCursorBoundingBox() {
-	boxGeometry = new THREE.BoxBufferGeometry( blockXSize, blockYSize, blockZSize );
-	boxGeometry.translate(cursor.position.x, cursor.position.y, cursor.position.z);
-	boxGeometry.computeBoundingBox();
-	cursor.bounds = boxGeometry.boundingBox.clone();	
-}
-
 //This should copy a blocks information. vector3 as input
 function cursorWireframe(x, y, z) {
 	//console.log("wire being called");
@@ -74,30 +67,32 @@ function edge(p1, p2) {
 	return new THREE.Line(geometry, new THREE.LineBasicMaterial({color: new THREE.Color(0, 0, 0)}));
 }
 
+// function cursorCollision(cursor, block) {
+// 	block.geometry.computeBoundingBox();
+// 	min = new THREE.Vector3().addVectors(cursor.bounds.min, cursor.position);
+// 	max = new THREE.Vector3().addVectors(cursor.bounds.max, cursor.position);
+// 	bounds1 = {};
+// 	bounds1.min = min;
+// 	bounds1.max = max;
+// 	bounds2 = block.geometry.boundingBox;
+// 	dist = min.distanceTo(bounds2.min) + max.distanceTo(bounds2.max)
+// 	//console.log(dist);
+// 	return dist == 0.0;
+// }
+
 function cursorCollision(cursor, block) {
 	block.geometry.computeBoundingBox();
-	min = new THREE.Vector3().addVectors(cursor.bounds.min, cursor.position);
-	max = new THREE.Vector3().addVectors(cursor.bounds.max, cursor.position);
-	bounds1 = {};
-	bounds1.min = min;
-	bounds1.max = max;
-	bounds2 = block.geometry.boundingBox;
-	dist = min.distanceTo(bounds2.min) + max.distanceTo(bounds2.max)
+	dist = cursor.bounds.min.distanceTo(block.geometry.boundingBox.min) + cursor.bounds.max.distanceTo(block.geometry.boundingBox.max)
 	//console.log(dist);
 	return dist == 0.0;
 }
 
 function blockUnderneath(cursor, block) {
 	block.geometry.computeBoundingBox();
-	min = new THREE.Vector3().addVectors(cursor.bounds.min, cursor.position);
-	max = new THREE.Vector3().addVectors(cursor.bounds.max, cursor.position);
-	bounds1 = {};
-	bounds1.min = min;
-	bounds1.max = max;
 	bounds2 = block.geometry.boundingBox;
 
-	bottomMin = new THREE.Vector3().addVectors(min, new THREE.Vector3(0, 0, 0));
-	bottomMax = new THREE.Vector3().addVectors(max, new THREE.Vector3(0, 0, 0));
+	bottomMin = new THREE.Vector3().addVectors(cursor.bounds.min, new THREE.Vector3(0, -blockYSize, 0));
+	bottomMax = new THREE.Vector3().addVectors(cursor.bounds.max, new THREE.Vector3(0, -blockYSize, 0));
 	return bottomMin.distanceTo(bounds2.min) + bottomMax.distanceTo(bounds2.max) == 0.0;
 
 	//console.log(block.position);
