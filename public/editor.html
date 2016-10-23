@@ -230,11 +230,19 @@ function onKeyDown(e) {
     }else if(e.keyCode == 67) {// 'c'
     	for( i = 0; i < roomStack().length; i++) {
 			if(blockUnderneath(cursor, roomStack()[i].block)) {
-				console.log(roomStack()[i].block.material.color);
-				console.log(room.material.color);
 				room.material.color = roomStack()[i].block.material.color;
+
+				changeRooms(roomStack()[i].id);
+				initState();
+				clearGroup(group);
+				fillGroup(group);
+				break;
 			}
 		}
+    }else if(e.keyCode == 86) {
+    	previousRoom();
+    	clearGroup(group);
+    	fillGroup(group);
     }
 
     //Movement controls
