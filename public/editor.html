@@ -17,6 +17,7 @@
 		<script src="./room.js"></script>
 		<script src="./block.js"></script>
 		<script src="./lighting.js"></script>
+		<script src="./state.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.5.1/math.js"></script>
 	</head>
 	<body>
@@ -52,15 +53,11 @@ room.add(innerRoomOutline);
 room.translateY(-blockYSize/2);
 group.add(room);
 
-//Initial stack push
-//var stack = [cursorBlock(0, 0, 0)];
-var stack = [];
-//group.add(stack[0]);
-
 var cursor = cursorWireframe(0, 0, 0);
 group.add(cursor);
 
 scene.add(group);
+initState();
 
 function updateCursorPosition(delta) {
 	cursor.position.x += delta.x;
@@ -78,7 +75,7 @@ function updateCursorPosition(delta) {
 }
 
 function collisionDetection() {
-	if(stack.length > 0) {
+	if(roomStack().length > 0) {
 		result = cursorTouchedABlock();
 		if(result) {
 			console.log("Touching");
@@ -94,17 +91,17 @@ function collisionDetection() {
 }
 
 function cursorTouchedABlock() {
-	for( i = 0; i < stack.length; i++) {
-		if(cursorCollision(cursor, stack[i])){
-			return stack[i];
+	for( i = 0; i < roomStack().length; i++) {
+		if(cursorCollision(cursor, roomStack()[i].block)){
+			return roomStack()[i].block;
 		}
 	}
 	return false;
 }
 
 function cursorOnTopOfBlock() {
-	for( i = 0; i < stack.length; i++) {
-		if(blockUnderneath(cursor, stack[i])) {
+	for( i = 0; i < roomStack().length; i++) {
+		if(blockUnderneath(cursor, roomStack()[i].block)) {
 			return true;
 		}
 	}
@@ -226,18 +223,16 @@ function onKeyDown(e) {
     	b = cursorBlock(cursor.position.x, cursor.position.y, cursor.position.z);
     	b.geometry.computeBoundingBox();
     	group.add(b);
-    	stack.push(b);
+    	addBlock(b);
     }else if (e.keyCode == 13) {// enter
-    	console.log(stack.length);
-    	b = stack.pop();
-    	console.log(stack.length);
+    	b = deleteBlock();
     	group.remove(b);
     }else if(e.keyCode == 67) {// 'c'
-    	for( i = 0; i < stack.length; i++) {
-			if(blockUnderneath(cursor, stack[i])) {
-				console.log(stack[i].material.color);
+    	for( i = 0; i < roomStack().length; i++) {
+			if(blockUnderneath(cursor, roomStack()[i].block)) {
+				console.log(roomStack()[i].block.material.color);
 				console.log(room.material.color);
-				room.material.color = stack[i].material.color;
+				room.material.color = roomStack()[i].block.material.color;
 			}
 		}
     }
