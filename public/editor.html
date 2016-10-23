@@ -170,6 +170,34 @@ function moveCursor(dir) {
 	updateCursorPosition(delta);
 }
 
+function wallDetection() {
+	//If x or z max are greater than x z of walls
+	//If x or z min are smaller than x z of walls
+
+	//Passed left wall
+	if(cursor.bounds.min.x <= -roomXSize/2) {
+		dif = -roomXSize/2 - cursor.bounds.min.x;
+		updateCursorPosition(new THREE.Vector3(dif, 0, 0));
+	}
+
+	//Passed right wall
+	if(cursor.bounds.max.x >= roomXSize/2) {
+		dif = roomXSize/2 - cursor.bounds.max.x;
+		updateCursorPosition(new THREE.Vector3(dif, 0, 0));
+	}
+
+	if(cursor.bounds.min.z <= -roomZSize/2) {
+		dif = -roomZSize/2 - cursor.bounds.min.z;
+		updateCursorPosition(new THREE.Vector3(0, 0, dif));
+	}
+
+	if(cursor.bounds.max.z >= roomZSize/2) {
+		dif = roomZSize/2 - cursor.bounds.max.z;
+		updateCursorPosition(new THREE.Vector3(0, 0, dif));
+	}
+	
+}
+
 function onKeyDown(e) {
 	//console.log(cursor);
 	e = e || window.event;
@@ -214,7 +242,6 @@ function onKeyDown(e) {
 		}
     }
 
-    //Problem is that when camera rotates the x and z axis change
     //Movement controls
     else if(e.keyCode == 87) {//W
     	moveCamera(0);//Forward
@@ -238,18 +265,16 @@ function onKeyDown(e) {
     else if(e.keyCode == 49) {
     	console.log(cursor);
     }
+
+    wallDetection();
 }
 
 document.onkeydown = onKeyDown;
 
-var cx = -100;
-var cy = 50;
-var cz = -10;
-
-voiceListener(function(result) {
-	cube(group, cx, cy, cz);
-	cx+=20;
-});
+// voiceListener(function(result) {
+// 	cube(group, cx, cy, cz);
+// 	cx+=20;
+// });
 
 render();
 
