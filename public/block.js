@@ -88,7 +88,7 @@ function oldCollision(cursor, block) {
 function cursorCollision(cursor, block) {
 	//block.geometry.computeBoundingBox();
 	output = vectorComparison2(cursor.bounds, block.geometry.boundingBox);
-	console.log(output);
+	//console.log(output);
 	return output;
 	//return oldCollision(cursor, block);
 }

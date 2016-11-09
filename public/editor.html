@@ -78,15 +78,15 @@ function collisionDetection() {
 	if(roomStack().length > 0) {
 		result = cursorTouchedABlock();
 		if(result) {
-			console.log("Touching");
+			//console.log("Touching");
 			updateCursorPosition(new THREE.Vector3(0, blockYSize, 0));
 		}else{
-			console.log("Not touching")
+			//console.log("Not touching")
 					//console.log(cursor);
 			if(!cursorOnTopOfBlock()) {
 				dif = cursor.position.y - 0;
 				updateCursorPosition(new THREE.Vector3(0, -dif, 0));
-				console.log("Not on top of a block")
+				//console.log("Not on top of a block")
 			}
 		}
 	}
