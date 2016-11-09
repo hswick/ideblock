@@ -72,6 +72,11 @@ function vectorComparison(v1, v2) {
 			(v1.min.x <= v2.max.x && v1.min.y <= v2.max.y && v1.min.z <= v2.max.z));
 }
 
+function vectorComparison2(v1, v2) {
+	return ((v1.max.x > v2.min.x && v1.max.y > v2.min.y && v1.max.z > v2.min.z) &&
+			(v1.min.x < v2.max.x && v1.min.y < v2.max.y && v1.min.z < v2.max.z));
+}
+
 function oldCollision(cursor, block) {
 	dist = cursor.bounds.min.distanceTo(block.geometry.boundingBox.min) + cursor.bounds.max.distanceTo(block.geometry.boundingBox.max);
 	return dist == 0.0;	
@@ -82,7 +87,7 @@ function oldCollision(cursor, block) {
 //Need to change
 function cursorCollision(cursor, block) {
 	//block.geometry.computeBoundingBox();
-	output = vectorComparison(cursor.bounds, block.geometry.boundingBox);
+	output = vectorComparison2(cursor.bounds, block.geometry.boundingBox);
 	console.log(output);
 	return output;
 	//return oldCollision(cursor, block);
@@ -95,5 +100,5 @@ function blockUnderneath(cursor, block) {
 	bottomMin = new THREE.Vector3().addVectors(cursor.bounds.min, new THREE.Vector3(0, -blockYSize, 0));
 	bottomMax = new THREE.Vector3().addVectors(cursor.bounds.max, new THREE.Vector3(0, -blockYSize, 0));
 	//return bottomMin.distanceTo(bounds2.min) + bottomMax.distanceTo(bounds2.max) == 0.0;
-	return vectorComparison(bounds2, {min: bottomMin, max:bottomMax});
+	return vectorComparison2(bounds2, {min: bottomMin, max:bottomMax});
 }
