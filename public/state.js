@@ -37,7 +37,6 @@ function fillGroup(group) {
 }
 
 function clearGroup(group) {
-	console.log(state[lastRoom].length);
 	for(i = 0; i < state[lastRoom].length; i++) {
 		group.remove(state[lastRoom][i].block);
 	}

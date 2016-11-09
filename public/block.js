@@ -67,10 +67,25 @@ function edge(p1, p2) {
 	return new THREE.Line(geometry, new THREE.LineBasicMaterial({color: new THREE.Color(0, 0, 0)}));
 }
 
+function vectorComparison(v1, v2) {
+	return ((v1.max.x >= v2.min.x && v1.max.y >= v2.min.y && v1.max.z >= v2.min.z) &&
+			(v1.min.x <= v2.max.x && v1.min.y <= v2.max.y && v1.min.z <= v2.max.z));
+}
+
+function oldCollision(cursor, block) {
+	dist = cursor.bounds.min.distanceTo(block.geometry.boundingBox.min) + cursor.bounds.max.distanceTo(block.geometry.boundingBox.max);
+	return dist == 0.0;	
+}
+
+//This only works if block is still within the grid. This is assuming grid will always have unfirom numbers.
+//That assumption makes this inflexible
+//Need to change
 function cursorCollision(cursor, block) {
 	//block.geometry.computeBoundingBox();
-	dist = cursor.bounds.min.distanceTo(block.geometry.boundingBox.min) + cursor.bounds.max.distanceTo(block.geometry.boundingBox.max);
-	return dist == 0.0;
+	output = vectorComparison(cursor.bounds, block.geometry.boundingBox);
+	console.log(output);
+	return output;
+	//return oldCollision(cursor, block);
 }
 
 function blockUnderneath(cursor, block) {
