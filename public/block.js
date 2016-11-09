@@ -94,5 +94,6 @@ function blockUnderneath(cursor, block) {
 
 	bottomMin = new THREE.Vector3().addVectors(cursor.bounds.min, new THREE.Vector3(0, -blockYSize, 0));
 	bottomMax = new THREE.Vector3().addVectors(cursor.bounds.max, new THREE.Vector3(0, -blockYSize, 0));
-	return bottomMin.distanceTo(bounds2.min) + bottomMax.distanceTo(bounds2.max) == 0.0;
+	//return bottomMin.distanceTo(bounds2.min) + bottomMax.distanceTo(bounds2.max) == 0.0;
+	return vectorComparison(bounds2, {min: bottomMin, max:bottomMax});
 }
